@@ -28,10 +28,9 @@ from datetime import datetime, timedelta
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 import subprocess
 from devgagan.modules.shrink import is_user_verified
+
 async def generate_random_name(length=8):
     return ''.join(random.choices(string.ascii_lowercase, k=length))
-
-
 
 users_loop = {}
 interval_set = {}
@@ -131,12 +130,15 @@ async def initialize_userbot(user_id): # this ensure the single startup .. even 
     if data and data.get("session"):
         try:
             device = 'iPhone 16 Pro' # added gareebi text
+            # MODIFIED HERE: Added workers and max_concurrent_transmissions limits
             userbot = Client(
                 "userbot",
                 api_id=API_ID,
                 api_hash=API_HASH,
                 device_model=device,
-                session_string=data.get("session")
+                session_string=data.get("session"),
+                workers=1,  
+                max_concurrent_transmissions=1 
             )
             await userbot.start()
             return userbot
